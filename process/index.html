@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="tufte">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/extra/classless.css" />
+<style>
+html[data-theme='tufte']{
+    --rem: 15px;
+    --navpos: absolute;
+    --width: 70rem;
+    --font-p: 1.4rem/2 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    --font-h: 1.4rem/1.5 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    --font-c: .9em/1.4 Consolas,"Liberation Mono","Courier New",monospace;
+    --ornament: "";
+    --border: 1px solid var(--cmed);
+    /* foreground   | background color */
+    --cfg:   #111;    --cbg:    #fbf7ec;
+    --cdark: #111;    --clight: #fbf7ec;
+    --cmed: #b4d5fe;
+    --clink: #111;
+    --cemph: #111;
+}
+</style>
+        <script>
+            let search = () => {
+                let word = document.querySelector('input').value;
+                if (word.length == 0) {
+                    alert('搜索内容不能为空！');
+                } else {
+                    location.href = '/search.html?' + word;
+                }
+            };
+        </script>
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+        <title>$title$</title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><big>我的博客</big></li>
+                <li><a href="/index.html">首页</a></li>
+                <li><a href="/html/markdown测试.html">测试</a></li>
+                <li class="float-right sticky"><button onclick="search()">Go</button></li>
+                <li class="float-right sticky"><input type="text" placeholder="搜索"></li>
+            </ul>
+        </nav>
+        <header>
+        </header>
+        <div class="row">
+            <div class="col">
+                $bloglist$
+            </div>
+            <div class="col-3">
+                <div class="card info">
+                    <p>关于我</p>
+                    <img src="/img/favicon.ico"></img>
+                    <p>个人介绍</p>
+                    <p>
+                    <a href="https://github.com/ZimingYuan" target="_BLANK">Github</a>
+                    </p>
+                </div>;
+            </div>
+        </div>
+        <footer>
+            <hr><center>转载请注明出处<br>© 2022 我的博客</center>
+        </footer>
+    </body>
+</html>

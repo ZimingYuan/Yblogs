@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="tufte">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/extra/classless.css" />
+<style>
+html[data-theme='tufte']{
+    --rem: 15px;
+    --navpos: absolute;
+    --width: 70rem;
+    --font-p: 1.4rem/2 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    --font-h: 1.4rem/1.5 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    --font-c: .9em/1.4 Consolas,"Liberation Mono","Courier New",monospace;
+    --ornament: "";
+    --border: 1px solid var(--cmed);
+    /* foreground   | background color */
+    --cfg:   #111;    --cbg:    #fbf7ec;
+    --cdark: #111;    --clight: #fbf7ec;
+    --cmed: #b4d5fe;
+    --clink: #111;
+    --cemph: #111;
+}
+</style>
+    <script>
+        (() => {
+            if (location.search.length == 0) return;
+            let word = decodeURI(location.search.slice(1)).toLowerCase();
+            let req = new XMLHttpRequest();
+            req.open('GET', '/extra/passages.json');
+            req.onload = () => {
+                let passages = JSON.parse(req.responseText);
+                let blog = document.querySelector('#Bloglist');
+                let title = document.querySelector('h3');
+                let cnt = 0
+                for (const passage of passages) {
+                    if (passage.name.toLowerCase().indexOf(word) != -1) {
+                        let card =
+`<div class="card">
+    <h4><a href="/html/${passage.name}.html">${passage.name}</a></h4><hr>
+    <h5>摘要：</h5><p>${passage.abstract}</p>
+    <em>${passage.date}</em>
+</div>`;
+                        blog.innerHTML += card; cnt++;
+                    }
+                }
+                title.textContent = `“${word}”查找到${cnt}个结果`;
+            };
+            req.send();
+        })();
+        let search = () => {
+            let word = document.querySelector('input').value;
+            if (word.length == 0) {
+                alert('搜索内容不能为空！');
+            } else {
+                location.href = '/search.html?' + word;
+            }
+        };
+    </script>
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+        <title>查找文章</title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><big>我的博客</big></li>
+                <li><a href="/index.html">首页</a></li>
+                <li><a href="/html/markdown测试.html">测试</a></li>
+                <li class="float-right sticky"><button onclick="search()">Go</button></li>
+                <li class="float-right sticky"><input type="text" placeholder="搜索"></li>
+            </ul>
+        </nav>
+        <header>
+            <h3>查找中...</h3>
+        </header>
+        <div id="Bloglist">
+        </div>
+        <footer>
+            <hr><center>转载请注明出处<br>© 2022 我的博客</center>
+        </footer>
+    </body>
+</html>
