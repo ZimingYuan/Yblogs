@@ -27,7 +27,7 @@ if not os.path.exists(blog_dir + '/img'):
     shutil.copytree(md_dir + '/img', blog_dir + '/img')
 else:
     for i in glob.glob(md_dir + '/img/*'):
-        img = blog_dir + i[len(md_dir)]
+        img = blog_dir + i[len(md_dir):]
         if not os.path.exists(img) or mtime > os.path.getmtime(img):
             print(f'cp {i} {img}')
             shutil.copy(i, img)
