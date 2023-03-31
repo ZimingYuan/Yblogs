@@ -38,7 +38,7 @@ html[data-theme='tufte']{
                         let card =
 `<div class="card">
     <h4><a href="/html/${passage.name}.html">${passage.name}</a></h4><hr>
-    <h5>摘要：</h5><p>${passage.abstract}</p>
+    <p>${passage.abstract}</p>
     <em>${passage.date}</em>
 </div>`;
                         blog.innerHTML += card; cnt++;
@@ -49,13 +49,19 @@ html[data-theme='tufte']{
             req.send();
         })();
         let search = () => {
-            let word = document.querySelector('input').value;
-            if (word.length == 0) {
-                alert('搜索内容不能为空！');
+            let word = document.querySelector('input');
+            if (word.value.length == 0) {
+                word.focus();
             } else {
-                location.href = '/search.html?' + word;
+                location.href = '/search.html?' + word.value;
             }
         };
+        window.onload = () => {
+            document.querySelector('input').addEventListener(
+                'keydown',  (event) => {
+                    if (event.key == 'Enter') search();
+            });
+        }
     </script>
         <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -67,8 +73,8 @@ html[data-theme='tufte']{
                 <li><big>我的博客</big></li>
                 <li><a href="/index.html">首页</a></li>
                 <li><a href="/html/markdown测试.html">测试</a></li>
-                <li class="float-right sticky"><button onclick="search()">Go</button></li>
-                <li class="float-right sticky"><input type="text" placeholder="搜索"></li>
+                <li class="float-right sticky"><button style="margin: 0" onclick="search()">Go</button></li>
+                <li class="float-right sticky"><input type="search" placeholder="搜索" style="margin: 0"></li>
             </ul>
         </nav>
         <header>
@@ -77,7 +83,7 @@ html[data-theme='tufte']{
         <div id="Bloglist">
         </div>
         <footer>
-            <hr><center>转载请注明出处<br>© 2022 我的博客</center>
+            <hr><center>转载请注明出处<br>© 2023 我的博客</center>
         </footer>
     </body>
 </html>
