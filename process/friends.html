@@ -22,50 +22,70 @@ html[data-theme='tufte']{
     --cemph: #111;
 }
 </style>
-        <script>
-            let search = () => {
-                let word = document.querySelector('input');
-                if (word.value.length == 0) {
-                    word.focus();
-                } else {
-                    location.href = '/search.html?' + word.value;
-                }
-            };
-            window.onload = () => {
-                document.querySelector('input').addEventListener(
-                    'keydown',  (event) => {
-                        if (event.key == 'Enter') search();
-                });
+    <script>
+        let search = () => {
+            let word = document.querySelector('input');
+            if (word.value.length == 0) {
+                word.focus();
+            } else {
+                location.href = '/search.html?' + word.value;
             }
-        </script>
+        };
+        window.onload = () => {
+            document.querySelector('input').addEventListener(
+                'keydown',  (event) => {
+                    if (event.key == 'Enter') search();
+            });
+        }
+    </script>
+    <style>
+        .avatar {
+            width: 5em;
+            height: 5em;
+            border-radius: 0.6em;
+            border-style: solid;
+            border-width: medium;
+            border-color: var(--cmed);
+            float: left;
+            margin-top: 0.2em !important;
+            margin-bottom: 0.2em !important;
+            margin-left: 0em !important;
+            margin-right: 1em !important;
+        }
+    </style>
         <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
-        <title>$title$</title>
+        <title>友情链接</title>
     </head>
     <body>
         <nav>
             <ul>
                 <li><big>我的博客</big></li>
-                <li><a href="/index.html"><strong>首页</strong></a></li>
+                <li><a href="/index.html">首页</a></li>
                 <li><a href="/html/markdown测试.html">测试</a></li>
-                <li><a href="/friends.html">友链</a></li>
+                <li><a href="/friends.html"><strong>友链</strong></a></li>
                 <li class="float-right sticky"><button style="margin: 0" onclick="search()">Go</button></li>
                 <li class="float-right sticky"><input type="search" placeholder="搜索标题" style="margin: 0"></li>
             </ul>
         </nav>
         <header>
+            <h1>友情链接</h1>
         </header>
         <div class="row">
             <div class="col">
-                $bloglist$
+                $friendlist$
             </div>
             <div class="col-3">
-                <div class="card">
-                    <h4>关于我</h4>
-                    <hr>
-                    <img style="border-radius: 10%; padding: 5%" src="/img/favicon.ico"></img>
-                    <p>我是谁</p>
-                    <p>沙奈朵</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <h4>关于我</h4>
+                            <hr>
+                            <img style="border-radius: 10%; padding: 5%" src="/img/favicon.ico"></img>
+                            <p>我是谁</p>
+                            <p>沙奈朵</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

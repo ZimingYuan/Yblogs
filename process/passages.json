@@ -1,14 +1,14 @@
 [
     {
         "name": "README",
-        "date": "2022年2月25日",
+        "date": "2036年8月13日",
         "category": "index",
         "abstract": "一个基于Python的小型博客系统，支持主页浏览和简单的文章标题搜索。网页均为静态网页，可以用于Github Pages等托管平台..."
     },
     {
         "name": "markdown测试",
-        "date": "2022年2月25日",
+        "date": "2036年8月13日",
         "category": "index",
-        "abstract": "标题1 标题2 标题3 标题4 标题5 标题6 加粗 倾斜 code 删除 ai markdown教程1 无序1 无序2 无序3 有序1 有序2 有序 引用 // multiline code import python print('hello world')..."
+        "abstract": "测试一下本博客（准确来说是Pandoc）的Markdown支持..."
     }
 ]

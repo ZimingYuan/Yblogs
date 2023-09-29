@@ -1,7 +1,3 @@
----
-title: README
----
-
 # Yblogs
 
 一个基于Python的小型博客系统，支持主页浏览和简单的文章标题搜索。网页均为静态网页，可以用于Github Pages等托管平台。
@@ -49,15 +45,30 @@ title: README
 
 3. 将其他网页模板（如`index.html`、`template.html`、`search.html`的导航栏也进行修改，使得其他网页也有指向新分类主页的链接，新分页的首页就是`对应分类名.html`，如`miscellany.html`，所以链接指向它即可，后面会介绍如何修改导航栏。
 
+## 添加友情链接
+
+修改`process`文件夹下的`friends.json`文件，添加友链名称、网址、描述、图标:
+
+```json
+    {
+        "name": "友链名称",
+        "url": "友链网址",
+        "description": "友链描述",
+        "avatar": "友链图标"
+    }
+```
+
+主目录下的`process.py`每次运行也会调用`friends.py`对友链页面进行更新。
+
 ## 定制网页
 
-本博客系统主要包含分类主页、文章页和搜索页三类页面，分别对应的模板页面为process文件夹下的`index.html`及其他`对应分类名.html`、`template.html`和`search.html`。为了格式的统一性可能需要在多个地方进行相似的修改。
+本博客系统主要包含分类主页模板、文章页模板、友链页和搜索页四类页面，分别对应的模板页面为process文件夹下的`index.html`及其他`对应分类名.html`、`template.html`、`friends.html`和`search.html`。为了格式的统一性可能需要在多个地方进行相似的修改。
 
 ### 定制html
 
 #### 修改导航栏
 
-`index.html`、`template.html`和`search.html`都包含导航栏，具体就是找到页面中的`<nav>`标签：
+分类主页模板、`template.html`、`friends.html`和`search.html`都包含导航栏，具体就是找到页面中的`<nav>`标签：
 
 ```html
         <nav>
@@ -75,11 +86,11 @@ title: README
 
 #### 修改页尾栏
 
-`index.html`、`template.html`和`search.html`都包含页尾栏，具体就是找到页面中的`<footer>`标签：
+分类主页模板、`template.html`、`friends.html`和`search.html`都包含页尾栏，具体就是找到页面中的`<footer>`标签：
 
 ```html
         <footer>
-            <hr><center>转载请注明出处<br>© 2022 我的博客</center>
+            <hr><center>转载请注明出处<br>© 2023 我的博客</center>
         </footer>
 ```
 
@@ -87,10 +98,10 @@ title: README
 
 #### 修改信息栏
 
-只有`index.html`包含信息栏，具体就是找到页面中的类名为`card info`的`<div`>标签：
+只有分类主页模板和`friends.html`包含信息栏，具体就是找到页面中的类名为`card`的`<div`>标签：
 
 ```html
-                <div class="card info">
+                <div class="card">
                     <p>关于我</p>
                     <img src="/img/favicon.ico"></img>
                     <p>个人介绍</p>
@@ -104,7 +115,7 @@ title: README
 
 #### 修改标题栏
 
-* 修改`index.html`、`template.html`和`search.html`的标题栏图标的方法是找到其中的`<link>`标签：
+* 修改分类主页模板、`template.html`、`friends.html`和`search.html`的标题栏图标的方法是找到其中的`<link>`标签：
 
 	```html
         <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -125,7 +136,7 @@ title: README
 
 本系统使用的样式表是[Classless.css](https://classless.de/)，你也可以使用其他的样式表，修改方法：
 
-* 对于主页和搜索页，直接在`index.html`和`search.html`的`<head>`标签里加入对应的样式表（或脚本）：
+* 对于分类主页和搜索页，直接在分类主页模板和`search.html`的`<head>`标签里加入对应的样式表（或脚本）：
 
   ```html
           <link rel="stylesheet" href="/extra/classless.css" />
@@ -168,12 +179,16 @@ title: README
 
 ### 首页
 
-![](/img/README1.png)
+![](markdown/img/README1.png)
 
 ### 文章页
 
-![](/img/README2.png)
+![](markdown/img/README2.png)
 
 ### 搜索页
 
-![](/img/README3.png)
+![](markdown/img/README3.png)
+
+### 友链页
+
+![](markdown/img/README4.png)

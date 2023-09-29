@@ -28,11 +28,13 @@ def execute(pc_dir, blog_dir, categories):
     <em>{i['date']}</em>
 </div>
 '''
+            bloglist += '<div style="padding-top: 2em; text-align: center">\n'
             for i in range(total):
                 if i == page:
-                    bloglist += f'<button disabled>{i + 1}</button>\n'
+                    bloglist += f'<button disabled style="padding: 0.2em 0.6em; margin: 0.1em">{i + 1}</button>\n'
                 else:
-                    bloglist += f'<a href="{url[i]}"><button>{i + 1}</button></a>\n'
+                    bloglist += f'<a href="{url[i]}"><button style="padding: 0.2em 0.6em; margin: 0.1em">{i + 1}</button></a>\n'
+            bloglist += '</div>\n'
             pagehtml = pagehtml.replace('$bloglist$', bloglist)
             with open(blog_dir + url[page], 'w', encoding='utf-8') as f:
                 f.write(pagehtml)

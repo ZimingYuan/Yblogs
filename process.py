@@ -53,3 +53,6 @@ for i in categories:
 print('execute index.py')
 from index import execute
 execute(pc_dir, blog_dir, categories)
+print('execute friends.py')
+from friends import execute
+execute(pc_dir, blog_dir)
