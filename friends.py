@@ -13,7 +13,7 @@ def execute(pc_dir, blog_dir):
 <div class="col-6">
     <div class="card">
         <img class="avatar" src="{j['avatar']}"></img>
-        <a href="{j['url']}"><strong>{j['name']}</strong></a>
+        <a href="{j['url']}" target="_blank"><strong>{j['name']}</strong></a>
         <br>
         <span>{j['description']}</span>
     </div>
