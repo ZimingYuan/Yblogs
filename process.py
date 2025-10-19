@@ -5,8 +5,12 @@ import shutil
 blog_dir = 'myblog'
 md_dir = 'markdown'
 pc_dir = 'process'
+blog_author = '我'
+blog_title = '我的博客'
+blog_url = 'https://my.blog'
+categories = {'technique': '技术', 'miscellany': '杂谈'}
 force_html = False
-force_img = False
+force_img = True
 
 if not os.path.exists(blog_dir):
     print('mkdir ' + blog_dir)
@@ -28,6 +32,7 @@ if not os.path.exists(blog_dir + '/img'):
     shutil.copytree(md_dir + '/img', blog_dir + '/img')
 else:
     for i in glob.glob(md_dir + '/img/*'):
+        mtime = os.path.getmtime(i)
         img = blog_dir + i[len(md_dir):]
         if force_img or not os.path.exists(img) or mtime > os.path.getmtime(img):
             print(f'cp {i} {img}')
@@ -39,12 +44,9 @@ if not os.path.exists(extraf):
     os.mkdir(extraf)
 print(f'cp {pc_dir}/classless.css {blog_dir}/extra')
 shutil.copy(pc_dir + '/classless.css', blog_dir + '/extra')
-print(f'cp {pc_dir}/passages.json {blog_dir}/extra')
-shutil.copy(pc_dir + '/passages.json', blog_dir + '/extra')
 print(f'cp {pc_dir}/search.html {blog_dir}')
 shutil.copy(pc_dir + '/search.html', blog_dir)
 
-categories = ['index']
 for i in categories:
     indexf = blog_dir + '/' + i
     if not os.path.exists(indexf):
@@ -52,7 +54,10 @@ for i in categories:
         os.mkdir(indexf)
 print('execute index.py')
 from index import execute
-execute(pc_dir, blog_dir, categories)
+execute(pc_dir, blog_dir, blog_title, categories)
 print('execute friends.py')
 from friends import execute
 execute(pc_dir, blog_dir)
+from json2atom import execute
+print('execute json2atom.py')
+execute(blog_dir, pc_dir, blog_author, blog_title, blog_url, categories)

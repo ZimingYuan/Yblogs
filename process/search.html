@@ -3,43 +3,65 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="我的博客 - 搜索结果页">
         <link rel="stylesheet" href="/extra/classless.css" />
-<style>
-html[data-theme='tufte']{
-    --rem: 15px;
-    --navpos: absolute;
-    --width: 70rem;
-    --font-p: 1.4rem/2 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-    --font-h: 1.4rem/1.5 et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-    --font-c: .9em/1.4 Consolas,"Liberation Mono","Courier New",monospace;
-    --ornament: "";
-    --border: 1px solid var(--cmed);
-    /* foreground   | background color */
-    --cfg:   #111;    --cbg:    #fbf7ec;
-    --cdark: #111;    --clight: #fbf7ec;
-    --cmed: #b4d5fe;
-    --clink: #111;
-    --cemph: #111;
-}
-</style>
     <script>
         (() => {
             if (location.search.length == 0) return;
             let word = decodeURI(location.search.slice(1)).toLowerCase();
             let req = new XMLHttpRequest();
-            req.open('GET', '/extra/passages.json');
+            req.open('GET', '/extra/atom.xml');
             req.onload = () => {
-                let passages = JSON.parse(req.responseText);
-                let blog = document.querySelector('#Bloglist');
-                let title = document.querySelector('h3');
-                let cnt = 0
-                for (const passage of passages) {
-                    if (passage.name.toLowerCase().indexOf(word) != -1) {
-                        let card =
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(req.responseText, 'application/xml');
+                const ns = 'http://www.w3.org/2005/Atom';
+                const entries = xmlDoc.getElementsByTagNameNS(ns, 'entry');
+                const blog = document.querySelector('#Bloglist');
+                const title = document.querySelector('h3');
+                let cnt = 0;
+
+                const parseYMD = (s) => {
+                    const m = (s || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+                    return m ? { y: +m[1], m: +m[2], d: +m[3] } : null;
+                };
+
+                for (let i = 0; i < entries.length; i++) {
+                    const entry = entries[i];
+                    const entryTitle = entry.getElementsByTagNameNS(ns, 'title')[0]?.textContent || '';
+                    if (entryTitle.toLowerCase().indexOf(word) !== -1) {
+                        const linkEl = entry.getElementsByTagNameNS(ns, 'link')[0];
+                        const href = linkEl?.getAttribute('href') || `/html/${entryTitle}.html`;
+                        const summary = entry.getElementsByTagNameNS(ns, 'summary')[0]?.textContent || '';
+                        const updated = entry.getElementsByTagNameNS(ns, 'updated')[0]?.textContent || '';
+                        const published = entry.getElementsByTagNameNS(ns, 'published')[0]?.textContent || updated;
+                        const catNode = entry.getElementsByTagNameNS(ns, 'category')[0];
+                        const category = catNode?.getAttribute('term') || '';
+
+                        const pub = parseYMD(published);
+                        const upd = parseYMD(updated);
+                        let dateText = '';
+                        if (pub) {
+                            const same = upd && pub.y === upd.y && pub.m === upd.m && pub.d === upd.d;
+                            if (same) {
+                                dateText = `${pub.y}年${pub.m}月${pub.d}日`;
+                            } else if (upd) {
+                                dateText = `${pub.y}年${pub.m}月${pub.d}日（${upd.y}.${upd.m}.${upd.d}更新）`;
+                            } else {
+                                dateText = `${pub.y}年${pub.m}月${pub.d}日`;
+                            }
+                        }
+
+                        const card =
 `<div class="card">
-    <h4><a href="/html/${passage.name}.html">${passage.name}</a></h4><hr>
-    <p>${passage.abstract}</p>
-    <em>${passage.date}</em>
+    <h4><a href="${href}">${entryTitle}</a></h4><hr>
+    <p>${summary}</p>
+    <em>
+        <svg width="1em" height="1em" viewBox="0 0 35 35" data-name="Layer 2" id="e73e2821-510d-456e-b3bd-9363037e93e3" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M11.933,15.055H3.479A3.232,3.232,0,0,1,.25,11.827V3.478A3.232,3.232,0,0,1,3.479.25h8.454a3.232,3.232,0,0,1,3.228,3.228v8.349A3.232,3.232,0,0,1,11.933,15.055ZM3.479,2.75a.73.73,0,0,0-.729.728v8.349a.73.73,0,0,0,.729.728h8.454a.729.729,0,0,0,.728-.728V3.478a.729.729,0,0,0-.728-.728Z"></path><path d="M11.974,34.75H3.52A3.233,3.233,0,0,1,.291,31.521V23.173A3.232,3.232,0,0,1,3.52,19.945h8.454A3.232,3.232,0,0,1,15.2,23.173v8.348A3.232,3.232,0,0,1,11.974,34.75ZM3.52,22.445a.73.73,0,0,0-.729.728v8.348a.73.73,0,0,0,.729.729h8.454a.73.73,0,0,0,.728-.729V23.173a.729.729,0,0,0-.728-.728Z"></path><path d="M31.522,34.75H23.068a3.233,3.233,0,0,1-3.229-3.229V23.173a3.232,3.232,0,0,1,3.229-3.228h8.454a3.232,3.232,0,0,1,3.228,3.228v8.348A3.232,3.232,0,0,1,31.522,34.75Zm-8.454-12.3a.73.73,0,0,0-.729.728v8.348a.73.73,0,0,0,.729.729h8.454a.73.73,0,0,0,.728-.729V23.173a.729.729,0,0,0-.728-.728Z"></path><path d="M27.3,15.055a7.4,7.4,0,1,1,7.455-7.4A7.437,7.437,0,0,1,27.3,15.055Zm0-12.3a4.9,4.9,0,1,0,4.955,4.9A4.935,4.935,0,0,0,27.3,2.75Z"></path></g></svg>
+        ${category}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 9H21M7 3V5M17 3V5M6 13H8M6 17H8M11 13H13M11 17H13M16 13H18M16 17H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        ${dateText}
+    </em>
 </div>`;
                         blog.innerHTML += card; cnt++;
                     }
@@ -65,17 +87,29 @@ html[data-theme='tufte']{
     </script>
         <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
-        <title>查找文章</title>
+        <title>我的博客 - 查找</title>
     </head>
     <body>
         <nav>
             <ul>
                 <li><big>我的博客</big></li>
-                <li><a href="/index.html">首页</a></li>
-                <li><a href="/html/markdown测试.html">测试</a></li>
+                <li><a href="/index.html">所有文章</a> ▾
+                    <ul>
+                        <li><a href="/technique.html">技术</a></li>
+                        <li><a href="/miscellany.html">杂谈</a></li>
+                    </ul>
+                </li>
                 <li><a href="/friends.html">友链</a></li>
-                <li class="float-right sticky"><button style="margin: 0" onclick="search()">Go</button></li>
-                <li class="float-right sticky"><input type="search" placeholder="搜索标题" style="margin: 0"></li>
+                <li><a href="/html/关于.html">关于</a></li>
+                <li><a href="/extra/atom.xml">RSS</a></li>
+                <li class="float-right">
+                    <div style="position: relative; display: inline-block;">
+                        <input type="search" placeholder="搜索标题" style="margin: 0; padding-right: 2em;">
+                        <button style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); border: none; background: transparent; margin: 0;" onclick="search()">
+                            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </button>
+                    </div>
+                </li>
             </ul>
         </nav>
         <header>
@@ -84,7 +118,12 @@ html[data-theme='tufte']{
         <div id="Bloglist">
         </div>
         <footer>
-            <hr><center>转载请注明出处<br>© 2023 我的博客</center>
+            <hr>
+            <center>
+                Powered by <a href="https://github.com/ZimingYuan/Yblogs" target="_blank">Yblogs</a><br>
+                转载请注明出处<br>
+                © 2025 我的博客<br>
+            </center>
         </footer>
     </body>
 </html>

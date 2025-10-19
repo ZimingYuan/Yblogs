@@ -2,13 +2,13 @@
     {
         "name": "README",
         "date": "2036年8月13日",
-        "category": "index",
+        "category": "technique",
         "abstract": "一个基于Python的小型博客系统，支持主页浏览和简单的文章标题搜索。网页均为静态网页，可以用于Github Pages等托管平台..."
     },
     {
         "name": "markdown测试",
-        "date": "2036年8月13日",
-        "category": "index",
+        "date": "2036年8月12日",
+        "category": "miscellany",
         "abstract": "测试一下本博客（准确来说是Pandoc）的Markdown支持..."
     }
 ]

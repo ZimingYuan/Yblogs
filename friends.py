@@ -1,11 +1,13 @@
 import sys
 import json
+import random
 
 def execute(pc_dir, blog_dir):
     col = 2
     friendlist = ''
     with open(pc_dir + '/friends.json', 'r', encoding='utf-8') as f:
         data = json.loads(f.read())
+    random.shuffle(data)
     for i, j in enumerate(data):
         if i % col == 0:
             friendlist += '<div class="row">'
