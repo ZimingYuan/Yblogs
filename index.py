@@ -41,11 +41,20 @@ def execute(pc_dir, blog_dir, blog_title, categories):
             bloglist += '<div style="padding-top: 2em; text-align: center">\n'
             if page > 0:
                 bloglist += f'<a href="{url[page - 1]}"><button style="padding: 0.4em 0.8em; margin: 0; border-radius: 50%; border: none">&lt;</button></a>\n'
+            buttonlist = []
             for i in range(total):
                 if i == page:
-                    bloglist += f'<button disabled style="padding: 0.4em 0.8em; margin: 0; border-radius: 50%">{i + 1}</button>\n'
+                    buttonlist.append(f'<button disabled style="padding: 0.4em; width: 2.3em; margin: 0; border-radius: 50%">{i + 1}</button>')
                 else:
-                    bloglist += f'<a href="{url[i]}"><button style="padding: 0.4em 0.8em; margin: 0; border-radius: 50%; border: none">{i + 1}</button></a>\n'
+                    buttonlist.append(f'<a href="{url[i]}"><button style="padding: 0.4em; width: 2.3em; margin: 0; border-radius: 50%; border: none">{i + 1}</button></a>')
+            if page - 1 > 1:
+                buttonlist = [buttonlist[0], '...'] + buttonlist[page - 1:]
+                tmppage = 3
+            else:
+                tmppage = page
+            if len(buttonlist) - 1 - (tmppage + 1) > 1:
+                buttonlist = buttonlist[:tmppage + 2] + ['...', buttonlist[-1]]
+            bloglist += '\n'.join(buttonlist) + '\n'
             if page < total - 1:
                 bloglist += f'<a href="{url[page + 1]}"><button style="padding: 0.4em 0.8em; margin: 0; border-radius: 50%; border: none">&gt;</button></a>\n'
             bloglist += '</div>\n'
